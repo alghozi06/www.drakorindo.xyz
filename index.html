@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>
+alert ("Don't be afraid!!!")
+alert ("just enjoy the music video!!!")
+</script>
+<script>
+
+    function tb8_makeArray(n){
+
+    this.length = n;
+
+    return this.length;
+
+    }
+
+    tb8_messages = new
+
+    tb8_makeArray(7);
+
+    tb8_messages[0] = "BLACK BART 06";
+    tb8_messages[1] = "WAS HERE";
+	tb8_messages[2] = "I FOUND A";
+    tb8_messages[3] = "VULNERABILITY";
+	tb8_messages[4] = "IN YOUR";
+	tb8_messages[5] = "SYSTEM";
+	tb8_messages[6] = "NO SYSTEM IS SAFE!!!";
+
+
+    tb8_rptType = 'infinite'; tb8_rptNbr = 5; tb8_speed = 125; tb8_delay = 1000; var tb8_counter=1; var tb8_currMsg=0; var tb8_tekst =""; var tb8_i=0; var tb8_TID = null; function tb8_pisi(){ tb8_tekst = tb8_tekst + tb8_messages[tb8_currMsg].substring(tb8_i, tb8_i+1); document.title = tb8_tekst; tb8_sp=tb8_speed; tb8_i++; if (tb8_i==tb8_messages[tb8_currMsg].length){ tb8_currMsg++; tb8_i=0; tb8_tekst="";tb8_sp=tb8_delay; } if (tb8_currMsg == tb8_messages.length){ if ((tb8_rptType == 'finite') && (tb8_counter==tb8_rptNbr)){ clearTimeout(tb8_TID); return; } tb8_counter++; tb8_currMsg = 0; } tb8_TID = setTimeout("tb8_pisi()", tb8_sp); } tb8_pisi() </script>
+<link rel="shortcut icon" href="http://www.solosequenosenada.com/galeria/undergro/pirata1/hack05.gif"/>
+	<meta charset="UTF-8">
+	<title>BLACK BART 06 WAS HERE</title>
+	<link href='http://fonts.googleapis.com/css?family=Bungee' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" charset="utf-8">
+ /* jQuery tubular plugin
+|* by Sean McCambridge
+|* http://www.seanmccambridge.com/tubular
+|* version: 1.0
+|* updated: October 1, 2012
+|* since 2010
+|* licensed under the MIT License
+|* Enjoy.
+|* 
+|* Thanks,
+|* Sean */
+
+;(function ($, window) {
+
+    // test for feature support and return if failure
+    
+    // defaults
+    var defaults = {
+        ratio: 16/9, // usually either 4/3 or 16/9 -- tweak as needed
+        videoId: 'ZCAnLxRvNNc', // toy robot in space is a good default, no?
+        mute: true,
+        repeat: true,
+        width: $(window).width(),
+        wrapperZIndex: 99,
+        playButtonClass: 'tubular-play',
+        pauseButtonClass: 'tubular-pause',
+        muteButtonClass: 'tubular-mute',
+        volumeUpClass: 'tubular-volume-up',
+        volumeDownClass: 'tubular-volume-down',
+        increaseVolumeBy: 10,
+        start: 0
+    };
+
+    // methods
+
+    var tubular = function(node, options) { // should be called on the wrapper div
+        var options = $.extend({}, defaults, options),
+            $body = $('body') // cache body node
+            $node = $(node); // cache wrapper node
+
+        // build container
+        var tubularContainer = '<div id="tubular-container" style="overflow: hidden; position: fixed; z-index: 1; width: 100%; height: 100%"><div id="tubular-player" style="position: absolute"></div></div><div id="tubular-shield" style="width: 100%; height: 100%; z-index: 2; position: absolute; left: 0; top: 0;"></div>';
+
+        // set up css prereq's, inject tubular container and set up wrapper defaults
+        $('html,body').css({'width': '100%', 'height': '100%'});
+        $body.prepend(tubularContainer);
+        $node.css({position: 'relative', 'z-index': options.wrapperZIndex});
+
+        // set up iframe player, use global scope so YT api can talk
+        window.player;
+        window.onYouTubeIframeAPIReady = function() {
+            player = new YT.Player('tubular-player', {
+                width: options.width,
+                height: Math.ceil(options.width / options.ratio),
+                videoId: options.videoId,
+                playerVars: {
+                    controls: 0,
+                    showinfo: 0,
+                    modestbranding: 1,
+                    wmode: 'transparent'
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        window.onPlayerReady = function(e) {
+            resize();
+            if (options.mute) e.target.mute();
+            e.target.seekTo(options.start);
+            e.target.playVideo();
+        }
+
+        window.onPlayerStateChange = function(state) {
+            if (state.data === 0 && options.repeat) { // video ended and repeat option is set true
+                player.seekTo(options.start); // restart
+            }
+        }
+
+        // resize handler updates width, height and offset of player after resize/init
+        var resize = function() {
+            var width = $(window).width(),
+                pWidth, // player width, to be defined
+                height = $(window).height(),
+                pHeight, // player height, tbd
+                $tubularPlayer = $('#tubular-player');
+
+            // when screen aspect ratio differs from video, video must center and underlay one dimension
+
+            if (width / options.ratio < height) { // if new video height < window height (gap underneath)
+                pWidth = Math.ceil(height * options.ratio); // get new player width
+                $tubularPlayer.width(pWidth).height(height).css({left: (width - pWidth) / 2, top: 0}); // player width is greater, offset left; reset top
+            } else { // new video width < window width (gap to right)
+                pHeight = Math.ceil(width / options.ratio); // get new player height
+                $tubularPlayer.width(width).height(pHeight).css({left: 0, top: (height - pHeight) / 2}); // player height is greater, offset top; reset left
+            }
+
+        }
+
+        // events
+        $(window).on('resize.tubular', function() {
+            resize();
+        })
+
+        $('body').on('click','.' + options.playButtonClass, function(e) { // play button
+            e.preventDefault();
+            player.playVideo();
+        }).on('click', '.' + options.pauseButtonClass, function(e) { // pause button
+            e.preventDefault();
+            player.pauseVideo();
+        }).on('click', '.' + options.muteButtonClass, function(e) { // mute button
+            e.preventDefault();
+            (player.isMuted()) ? player.unMute() : player.mute();
+        }).on('click', '.' + options.volumeDownClass, function(e) { // volume down button
+            e.preventDefault();
+            var currentVolume = player.getVolume();
+            if (currentVolume < options.increaseVolumeBy) currentVolume = options.increaseVolumeBy;
+            player.setVolume(currentVolume - options.increaseVolumeBy);
+        }).on('click', '.' + options.volumeUpClass, function(e) { // volume up button
+            e.preventDefault();
+            if (player.isMuted()) player.unMute(); // if mute is on, unmute
+            var currentVolume = player.getVolume();
+            if (currentVolume > 100 - options.increaseVolumeBy) currentVolume = 100 - options.increaseVolumeBy;
+            player.setVolume(currentVolume + options.increaseVolumeBy);
+        })
+    }
+
+    // load yt iframe js api
+
+    var tag = document.createElement('script');
+    tag.src = "//www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // create plugin
+
+    $.fn.tubular = function (options) {
+        return this.each(function () {
+            if (!$.data(this, 'tubular_instantiated')) { // let's only run one
+                $.data(this, 'tubular_instantiated', 
+                tubular(this, options));
+            }
+        });
+    }
+
+})(jQuery, window);
+	</script>
+    <script type="text/javascript" charset="utf-8">
+		$().ready(function() {
+			$('#wrapper').tubular({videoId: 'M-P4QBt-FWw', mute: false, ratio: 4/3}); 
+		}); 
+	</script>
+	<style>
+*{
+		padding: 0;margin: 0;
+	}
+body {
+
+	text-align: center;
+}
+
+h1 {
+	font-family: 'Bungee', cursive;
+	color: white;
+	text-transform: uppercase;
+	letter-spacing: 0.015em;
+	text-align: center;
+	font-size: 4em;
+	margin-bottom: 0%;
+}
+	hr {
+		content: '';
+		width: 15%;
+		display: block;
+		background: #fff;
+		height: 10px;
+		margin: 10px auto;
+		line-height: 1.1;
+		border-radius: 50px;
+               border:0px;
+
+}
+
+p {
+	color: white;
+	font-size: 32px;
+	text-align: center;
+	font-family: 'Josefin Sans', sans-serif;
+}
+
+a {
+	text-decoration: none;
+	color: white;
+	font-family: 'Josefin Sans', sans-serif;
+	font-size: 24px;
+	display: inline-block;
+	padding: 15px 30px;
+	border: 2px solid #fff;
+	text-transform: uppercase;
+	letter-spacing: 0.015em;
+	margin-top: 2%;
+	transition-duration: 0.8s;
+	&:hover {
+		color: lightgreen;
+		border-color: lightgreen;
+		border-radius: 2px;
+		transition-duration: 0.8s;
+	}
+}
+	</style>
+</head>
+<body>
+<div id="wrapper">
+<br><br><br><br><br><br><br>
+<h1 id="rightwrite">TESTED BY BLACK BART 06</h1>
+ <hr><br>
+<p>W3LL SQUAD OFFICIAL</p>
+<br><br>
+<font color="white" size="5" face="Tahoma" style="margin: 0px; padding: 0px">
+
+			<marquee scrollamount="5" scrolldelay="50" width="80%" style="margin: 0px; padding: 0px"><b>
+
+				| W3LL | NurMala | /4MN3SI4\ | BLACK BART 06 | Mr. AK13XWS | XnD0yZshHH | SUMO IRENG | Mr.Maniz | N3W FACE | ./B4D#R4BB1T | DeXONE | MR.B41B4L.X | Z0y0n3-cripzGangs | Shinta17 | G4V | Lollz | Mr.ByteID | Depars | Story Life Broken Heart | FALKA | -IhS@N- | Software7 |
+			</marquee>
+
+		</font>
+<a href="http://www.wellsquad.zone.id">VISIT OFFICIAL BLOG</a> <a href="https://youtu.be/M-P4QBt-FWw">LINK VIDEO</a>
+
+</div>
+
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+    function pulsate() {
+
+        $("#rightwrite").animate({ opacity: 0.2 }, 1200, 'linear')
+
+                     .animate({ opacity: 1 }, 1200, 'linear', pulsate)
+
+                     .click(function() {
+
+                         $(this).animate({ opacity: 1 }, 1200, 'linear');
+
+                         $(this).stop();
+
+                     });
+
+        }
+
+
+
+    pulsate();
+
+});
+
+// list video music 1. 6Po5O-K8ab4 2. M-P4QBt-FWw
+
+</script>
+</body>
+</html>
